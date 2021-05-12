@@ -3,6 +3,16 @@ const inputUsername = document.querySelector("#inputUsername");
 const btnNewGame = document.querySelector("#btnNewGame")
 const divNewGame = document.querySelector("#new_game")
 
+addEventListener('load', (event) => {
+
+    if ((sessionStorage.getItem("actual_game")) != null || 
+        sessionStorage.getItem("actual_username") != null)
+    {
+        HtmlManipulation.hideHtmlElement(document.querySelector("#new_game"))
+        HtmlManipulation.showHtmlElement(document.querySelector("#game"))
+    }
+});
+
 btnNewGame.addEventListener('click', async (event) => {
     event.preventDefault();
     if (inputUsername.value) {

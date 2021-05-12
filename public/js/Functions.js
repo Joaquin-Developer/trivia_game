@@ -8,7 +8,7 @@ class Alerts
         if (alertElem.firstChild) alertElem.removeChild(alertElem.firstChild);
         
         alertElem.appendChild(document.createTextNode(textAlert));
-        new HtmlManipulation().showHtmlElement(alertElem);
+        HtmlManipulation.showHtmlElement(alertElem);
         setTimeout(() => {
             hideHtmlElement(alertElem);
         }, 6000);
@@ -20,7 +20,7 @@ class Alerts
         if (alertElem.firstChild) alertElem.removeChild(alertElem.firstChild);
         
         alertElem.appendChild(document.createTextNode(textAlert));
-        new HtmlManipulation().showHtmlElement(alertElem);
+        HtmlManipulation.showHtmlElement(alertElem);
         setTimeout(() => {
             hideHtmlElement(alertElem);
         }, 6000);

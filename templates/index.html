@@ -42,10 +42,11 @@
             </div>
         </div>
     </nav><br>
-    <div id="errorAlert" class="alert alert-danger noVisible" role="alert"></div>
-    <div id="successAlert" class="alert alert-success noVisible" role="alert"></div>
+    <div class="container">
+        <div id="errorAlert" class="alert alert-danger noVisible" role="alert"></div>
+        <div id="successAlert" class="alert alert-success noVisible" role="alert"></div>
+    </div>
     <div class="container visible" id="new_game">
-        
         <div class="formNewGame" id="formNewGame">
             <h2>Nuevo juego</h2>
             <form class="row g-3">
@@ -73,9 +74,38 @@
                 RONDA <strong id="game_data_number_round">4</strong> de 10<br>
                 Acertadas: <strong id="game_data_corrects">10</strong> | Errores: <strong id="game_data_errors">10</strong>
             </p>
-        </div>
+        </div><br>
         <div class="game">
-            
+            <form>
+                <div class="form-group">
+                    <label for="txtMessage">Pregunta:</label>
+                    <h4 id="question">¿Cual es la capital de Uruguay?</h4><br>
+                </div>
+                <div class="row">
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="answerA" checked>
+                        <label class="form-check-label" for="answerA">A.</label>
+                    </div>
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="answerB">
+                        <label class="form-check-label" for="answerB">B.</label>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="answerC">
+                        <label class="form-check-label" for="answerC">C.</label>
+                    </div>
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="answerD">
+                        <label class="form-check-label" for="answerD">D.</label>
+                    </div>
+                </div><br>
+                <div class="d-grid gap-2">
+                    <button id="btnAnswer" class="btn btn-primary" type="submit">RESPONDER</button>
+                </div>
+                <br><br>
+            </form>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

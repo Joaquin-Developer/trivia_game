@@ -47,7 +47,7 @@ function newGame(jsonGameObject, username) {
 
     HtmlManipulation.hideHtmlElement(divNewGame);
     HtmlManipulation.showHtmlElement(document.querySelector("#game"))
-    Game.init();
+    Game.init(jsonGameObject);
 }
 
 document.querySelector("#btnAnswer").addEventListener("click", (event) => {

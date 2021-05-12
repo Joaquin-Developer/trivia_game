@@ -34,21 +34,25 @@ class HtmlManipulation
         element.classList.add("visible");
     }
 
-    static hideHtmlElement(element) {
+    static hideHtmlElement(element)
+    {
         element.classList.remove("visible");
         element.classList.add("noVisible");
     }
 
-    static removeChilds(element) {
+    static removeChilds(element)
+    {
         element.removeChild(element.firstChild);
     }
 
-    static changeChild(element, text) {
+    static changeChild(element, text)
+    {
         this.removeChilds(element);
         element.appendChild(document.createTextNode(text));
     }
 
-    static refreshDataGame(data) {
+    static refreshDataGame(data)
+    {
         const numberRound = document.getElementById("game_data_number_round");
         const totalCorrects = document.getElementById('game_data_corrects');
         const totalErrors = document.getElementById('game_data_errors');

@@ -1,5 +1,135 @@
 [
     {
-        
+        "Matemáticas básicas": [
+            {
+                "id_question": 1,
+                "question": "Cuánto es el resultado de la operación 4 + 2 x 2",
+                "answers": ["A. 8", "B. 4", "C. 12", "D. 16"],
+                "correct": "A"
+            },
+            {
+                "id_question": 2,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 3,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 4,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 5,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 6,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 7,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 8,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 9,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            },
+            {
+                "id_question": 10,
+                "question": "",
+                "answers": ["A.", "B.", "C.", "D."],
+                "correct": "A"
+            }
+        ]
+    },
+    {
+        "Geografia": [
+            {
+                "id_question": 1,
+                "question": "¿Cuál es la capital de Brasil?",
+                "answers": ["A. Río de Janeiro", "B. Brasilia", "C. Porto Alegre", "D. Sao Paulo"],
+                "correct": "B"
+            },
+            {
+                "id_question": 2,
+                "question": "¿Cuántas provincias tiene Argentina?",
+                "answers": ["A. 23", "B. 24", "C. 20", "D. 21"],
+                "correct": "A"
+            },
+            {
+                "id_question": 3,
+                "question": "¿Cual de estas ciudades no es de américa latina?",
+                "answers": ["A. Santiago", "B. Cuenca", "C. Sucre", "D. Quebec"],
+                "correct": "D"
+            },
+            {
+                "id_question": 4,
+                "question": "¿Cual de estos países tiene mas población?",
+                "answers": ["A. Uruguay", "B. Paraguay", "C. Islandia", "D. Leshoto"],
+                "correct": "B"
+            },
+            {
+                "id_question": 5,
+                "question": "¿Cuál es el país de los 1.000 lagos?",
+                "answers": ["A. Finlandia", "B. USA", "C. Brasil", "D. Canada"],
+                "correct": "A"
+            },
+            {
+                "id_question": 6,
+                "question": "¿Cuál es el río mas largo de europa?",
+                "answers": ["A. El Tajo", "B. El Volga", "C. El Támesis", "D. El Ebro"],
+                "correct": "C"
+            },
+            {
+                "id_question": 7,
+                "question": "¿Cuál de las siguientes cuidades no está en el departamento de Canelones, Uruguay?",
+                "answers": ["A. Santa Lucía", "B. Casupá", "C. Tala", "D. Aguas Corrientes"],
+                "correct": "B"
+            },
+            {
+                "id_question": 8,
+                "question": "¿Cuántos estados libres y soberanos tiene México?",
+                "answers": ["A. 25", "B. 21", "C. 28", "D. 31"],
+                "correct": "D"
+            },
+            {
+                "id_question": 9,
+                "question": "¿Cual es la capital de España?",
+                "answers": ["A. Barcelona", "B. Sevilla", "C. Madrid", "D. San José"],
+                "correct": "C"
+            },
+            {
+                "id_question": 10,
+                "question": "¿Cuál de los siguientes países no tiene ejercito?",
+                "answers": ["A. Andorra", "B. Finlandia", "C. El Salvador", "D. Dinamarca"],
+                "correct": "A"
+            }
+        ]
+    },
+    {
+        "Musica": [
+            
+        ]
     }
 ]

@@ -1,11 +1,13 @@
 class Game {
     
-    static init() {
+    static async init(jsonGameObject) {
         console.log("empieza el juego")
+        const question = await this.getNewQuestion(jsonGameObject.id_game);
+
     }
 
     static sendAnswer(idGame, idQuestion, answer) {
-        // fetch()
+        // fetch().
     }
 
     static async getNewQuestion(idGame) {
@@ -16,14 +18,5 @@ class Game {
             HtmlManipulation.showErrorAlert(resp.message);
         }
     }
-
-    static refreshDataGame() {
-        const x = document.getElementById("game_data_number_round");
-        
-
-    }
-
     
-
-
 }

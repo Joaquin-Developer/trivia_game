@@ -1,14 +1,13 @@
-class Alerts 
+class HtmlManipulation
 {
-    constructor() { }
-    
     static showSuccessAlert()
     {
         const alertElem = document.querySelector("#successAlert");
         if (alertElem.firstChild) alertElem.removeChild(alertElem.firstChild);
         
         alertElem.appendChild(document.createTextNode(textAlert));
-        HtmlManipulation.showHtmlElement(alertElem);
+        this.showHtmlElement(alertElem);
+        // HtmlManipulation.showHtmlElement(alertElem);
         setTimeout(() => {
             hideHtmlElement(alertElem);
         }, 6000);
@@ -20,20 +19,17 @@ class Alerts
         if (alertElem.firstChild) alertElem.removeChild(alertElem.firstChild);
         
         alertElem.appendChild(document.createTextNode(textAlert));
-        HtmlManipulation.showHtmlElement(alertElem);
+        this.showHtmlElement(alertElem);
+        // HtmlManipulation.showHtmlElement(alertElem);
         setTimeout(() => {
             hideHtmlElement(alertElem);
         }, 6000);
     }
-}
-
-class HtmlManipulation
-{
-    constructor() { }
 
     static showHtmlElement(element)
     {
         element.classList.remove("none");
         element.classList.add("block");
     }
+
 }

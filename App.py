@@ -51,6 +51,15 @@ def create_new_game(username, topic):
     }
 
 
+@app.route("/get_new_question_id_<idgame>", methods = ["GET"])
+def get_new_question(idgame):
+    id_game = str(idgame)
+    try:
+        pass
+    except Exception as e:
+        return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
+    pass
+
 @app.route("/end_game_<username>", methods = ["GET"])
 def end_game(username):
     try:

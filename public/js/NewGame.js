@@ -45,14 +45,14 @@ function newGame(jsonGameObject, username) {
     saveNewGameJSON(jsonGameObject, username);
     clearInputUsername();
 
-    console.log("Bienvenido al juego")
-
     HtmlManipulation.hideHtmlElement(divNewGame);
     HtmlManipulation.showHtmlElement(document.querySelector("#game"))
-
-    /**
-     * Show div-game ...
-     */
-
+    Game.init();
 }
 
+document.querySelector("#btnAnswer").addEventListener("click", (event) => {
+    event.preventDefault();
+
+    Game.sendAnswer();
+
+});

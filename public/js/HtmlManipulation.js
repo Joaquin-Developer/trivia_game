@@ -11,7 +11,7 @@ class HtmlManipulation
         setTimeout(() => {
             this.hideHtmlElement(alertElem);
             callback();
-        }, 5000);
+        }, 4000);
     }
 
     static showErrorAlert(messageAlert, callback = ()=> { return null })
@@ -25,7 +25,7 @@ class HtmlManipulation
         setTimeout(() => {
             this.hideHtmlElement(alertElem);
             callback();
-        }, 6000);
+        }, 5000);
     }
 
     static showHtmlElement(element)

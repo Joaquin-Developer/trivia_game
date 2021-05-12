@@ -9,10 +9,8 @@ btnNewGame.addEventListener('click', async (event) => {
 
         if (resp.status) {  // todo ok
             HtmlManipulation.showSuccessAlert(resp.message, () => {
-                inputUsername.value = "";
                 newGame();
             });
-            saveNewGameJSON(resp.game, inputUsername.value);
         } else {
             HtmlManipulation.showErrorAlert(resp.message)
         }
@@ -28,6 +26,13 @@ function saveNewGameJSON(jsonObject, username) {
 }
 
 function newGame() {
+    saveNewGameJSON(resp.game, inputUsername.value);
+    inputUsername.value = "";
+
     console.log("Bienvenido al juego")
+    /**
+     * Show div-game ...
+     */
+
 }
 

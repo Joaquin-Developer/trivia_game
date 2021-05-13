@@ -52,23 +52,23 @@ def answer(idgame, answer):
         result = question.get("correct") == answer
         total_corrects = game.get('total_corrects')
         total_errors = game.get('total_errors')
-        if result:
-            total_corrects += 1
-        else:
-            total_errors += 1
+        if result: total_corrects += 1
+        else: total_errors += 1
 
-        updated_game_list = set_game(game.get('id_game'), {
+        new_game = {
             'id_game': game.get('id_game'),
             'topic_game': game.get('topic_game'),
             'username': game.get('username'),
             'current_round': (game.get('current_round') + 1),
             'total_correct': total_corrects,
             'total_errors': total_errors
-        })
+        }
+
+        updated_game_list = set_game(game.get('id_game'), new_game)
         # update the public games array:
         games = updated_game_list
 
-
+        return json.dumps({ "status": True, "result": result, "game": new_game }, ensure_ascii= False)
 
     except Exception as e:
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)

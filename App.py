@@ -50,9 +50,9 @@ def answer(idgame, answer):
         answer = str(answer)
         question = get_answers_by_topic(game.get("topic_game")).get("all_questions")[actual_round - 1]
         result = question.get("correct") == answer
-        total_corrects = game.get('total_corrects')
+        total_correct = game.get('total_correct')
         total_errors = game.get('total_errors')
-        if result: total_corrects += 1
+        if result: total_correct += 1
         else: total_errors += 1
 
         new_game = {
@@ -60,9 +60,10 @@ def answer(idgame, answer):
             'topic_game': game.get('topic_game'),
             'username': game.get('username'),
             'current_round': (game.get('current_round') + 1),
-            'total_correct': total_corrects,
+            'total_correct': total_correct,
             'total_errors': total_errors
         }
+        print(new_game)
 
         updated_game_list = set_game(game.get('id_game'), new_game)
         # update the public games array:

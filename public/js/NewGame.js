@@ -47,11 +47,15 @@ function newGame(jsonGameObject, username) {
 
     HtmlManipulation.hideHtmlElement(divNewGame);
     HtmlManipulation.showHtmlElement(document.querySelector("#game"))
-    Game.init(jsonGameObject);
+    Game.init();
 }
 
-document.querySelector("#btnAnswer").addEventListener("click", (event) => {
+document.querySelector("#btnAnswer").addEventListener("click", async (event) => {
     event.preventDefault();
-    Game.sendAnswer();
+    await Game.sendAnswer();
+
+    const newQuestion = await Game.getNewQuestion();
+    console.log(newQuestion);
+    HtmlManipulation.refreshDataGame(newQuestion);
 
 });

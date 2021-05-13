@@ -41,47 +41,6 @@ def new_game(username, topic):
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
     pass
 
-def create_new_game(username, topic):
-    return {
-        'id_game': (len(games) + 1),
-        'topic_game': topic,
-        'username': username,
-        'current_round': 1,
-        'total_correct': 0,
-        'total_errors': 0
-    }
-
-def get_game(id):
-    for elem in games:
-        if elem.get('id_game') == id:
-            return elem
-
-def set_game(id, game):
-    temp_game = []
-    for elem in games:
-        if elem.get('id_game') == id:
-            elem = game
-        temp_game.append(elem)
-    
-    return temp_game
-
-def read_file():
-    route = (os.environ["PP_ROUTE"] + "/trivia_game/data/trivia_data.json" )
-    f = open(route, "r").read()
-    return f
-
-def get_json_data():
-    return json.loads(read_file())
-
-def get_answers():
-    data = get_json_data()
-    for elem in data:
-        if elem.get('topic') == "Geografia":
-            print(elem)
-            return elem
-
-def correct_answer(answer, ):
-    pass    
 
 @app.route("/answer_question_id_game_<idgame>", metohds = ["POST"])
 def answer(idgame):
@@ -123,6 +82,51 @@ def page_not_found(error):
     return "404 not found"
     # return render_template("404errorPage.html")
 
+#################### LOGIC: ###############################
+
+def create_new_game(username, topic):
+    return {
+        'id_game': (len(games) + 1),
+        'topic_game': topic,
+        'username': username,
+        'current_round': 1,
+        'total_correct': 0,
+        'total_errors': 0
+    }
+
+def get_game(id):
+    for elem in games:
+        if elem.get('id_game') == id:
+            return elem
+
+def set_game(id, game):
+    temp_game = []
+    for elem in games:
+        if elem.get('id_game') == id:
+            elem = game
+        temp_game.append(elem)
+    
+    return temp_game
+
+def read_file():
+    route = (os.environ["PP_ROUTE"] + "/trivia_game/data/trivia_data.json" )
+    f = open(route, "r").read()
+    return f
+
+def get_json_data():
+    return json.loads(read_file())
+
+def get_answers_by_topic(topic):
+    data = get_json_data()
+    for elem in data:
+        if elem.get('topic') == topic:
+            return elem
+
+def correct_answer(answer, ):
+    pass    
+
+###### End Logic ########################
+
 # RUN:
 def test():
     app.run(debug=True)
@@ -135,5 +139,4 @@ if __name__ == '__main__':
         test()
     else: 
         run()
-
 

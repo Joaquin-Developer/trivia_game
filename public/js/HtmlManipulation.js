@@ -51,27 +51,35 @@ class HtmlManipulation
         element.appendChild(document.createTextNode(text));
     }
 
-    static refreshDataGame(data)
+    static refreshDataGame(gameData, newQuestionData)
     {
+        console.log(gameData);
         const numberRound = document.getElementById("game_data_number_round");
         const totalCorrects = document.getElementById('game_data_corrects');
         const totalErrors = document.getElementById('game_data_errors');
         const question = document.getElementById('question');
-        const answerA = document.getElementById('answerA');
-        const answerB = document.getElementById('answerB');
-        const answerC = document.getElementById('answerC');
-        const answerD = document.getElementById('answerD');
+        const answerA = document.getElementsByClassName("form-check-label")[0]
+        const answerB = document.getElementsByClassName("form-check-label")[1]
+        const answerC = document.getElementsByClassName("form-check-label")[2]
+        const answerD = document.getElementsByClassName("form-check-label")[3]
+        // const answerB = document.getElementById('answerB');
+        // const answerC = document.getElementById('answerC');
+        // const answerD = document.getElementById('answerD');
 
-        this.changeChild(numberRound, data.current_round)
-        this.changeChild(totalCorrects, data.total_correct)
-        this.changeChild(totalErrors, data.total_errors)
-        this.changeChild(question, data.new_question.question)
-        this.changeChild(answerA, data.new_question.answerA)
-        this.changeChild(answerB, data.new_question.answerB)
-        this.changeChild(answerC, data.new_question.answerC)
-        this.changeChild(answerD, data.new_question.answerD)
+        this.changeChild(numberRound, gameData.current_round)
+        this.changeChild(totalCorrects, gameData.total_correct)
+        this.changeChild(totalErrors, gameData.total_errors)
+        this.changeChild(question, newQuestionData.question)
+        this.changeChild(answerA, newQuestionData.answers[0])
+        this.changeChild(answerB, newQuestionData.answers[1])
+        this.changeChild(answerC, newQuestionData.answers[2])
+        this.changeChild(answerD, newQuestionData.answers[3])
         
     }
+    // 'status': True,
+    //         'id_question': send_question.get("id_question"),
+    //         'question': send_question.get("question"),
+    //         'answers': send_question.get("answers")
     // obj = {current_round: 1, id_game: 1, topic_game: "matematicas",
     // total_correct: null, total_errors: null, username: "joaquin"}
 

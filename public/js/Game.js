@@ -20,8 +20,9 @@ class Game {
             // save the updated game object:
             sessionStorage.setItem("actual_game", JSON.stringify(resp.game));
             // and refrest data in Html:
-            console.log(resp.game);
-            HtmlManipulation.refreshDataGame(resp.game);
+            const newQuestion = await this.getNewQuestion();
+            HtmlManipulation.refreshDataGame(resp.game, newQuestion);
+            
             if (resp.result) {
                 HtmlManipulation.showSuccessAlert("CORRECTO!");
             } else {
@@ -39,7 +40,8 @@ class Game {
 
         const resp = await (await fetch(`/get_new_question_id_${this.getIdGame()}`)).json();
         if (resp.status) {
-            return resp.question;
+            // return resp.question;
+            return resp;
         } else {
             HtmlManipulation.showErrorAlert(resp.message);
         }

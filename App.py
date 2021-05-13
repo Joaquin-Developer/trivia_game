@@ -42,7 +42,7 @@ def new_game(username, topic):
     pass
 
 
-@app.route("/answer_question_id_game_<idgame>_answer_<answer>", metohds = ["GET"])
+@app.route("/answer_question_id_game_<idgame>_answer_<answer>", methods = ["GET"])
 def answer(idgame, answer):
     try:
         game = get_game(int(idgame))

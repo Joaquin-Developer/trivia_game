@@ -3,7 +3,7 @@ class Game {
     static async init(jsonGameObject) {
         console.log("empieza el juego")
         const question = await this.getNewQuestion(jsonGameObject.id_game);
-
+        
     }
 
     static sendAnswer(idGame, idQuestion, answer) {

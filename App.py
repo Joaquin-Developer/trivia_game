@@ -42,21 +42,41 @@ def new_game(username, topic):
     pass
 
 
-@app.route("/answer_question_id_game_<idgame>", metohds = ["POST"])
-def answer(idgame):
+@app.route("/answer_question_id_game_<idgame>_answer_<answer>", metohds = ["GET"])
+def answer(idgame, answer):
     try:
         game = get_game(int(idgame))
+        actual_round = int(game.get('current_round'))
+        answer = str(answer)
+        question = get_answers_by_topic(game.get("topic_game")).get("all_questions")[actual_round - 1]
+        result = question.get("correct") == answer
+        total_corrects = game.get('total_corrects')
+        total_errors = game.get('total_errors')
+        if result:
+            total_corrects += 1
+        else:
+            total_errors += 1
+
+        updated_game_list = set_game(game.get('id_game'), {
+            'id_game': game.get('id_game'),
+            'topic_game': game.get('topic_game'),
+            'username': game.get('username'),
+            'current_round': (game.get('current_round') + 1),
+            'total_correct': total_corrects,
+            'total_errors': total_errors
+        })
+        # update the public games array:
+        games = updated_game_list
+
+
 
     except Exception as e:
-        pass
-
-    pass
+        return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
 
 @app.route("/get_new_question_id_<idgame>", methods = ["GET"])
 def get_new_question(idgame):
-    id_game = int(idgame)
     try:
-        my_game = get_game(id_game)
+        my_game = get_game(int(idgame))
         actual_round = int(my_game.get('current_round'))
         all_questions = get_answers_by_topic(my_game.get("topic_game")).get("all_questions")
         send_question = all_questions[actual_round - 1]
@@ -95,6 +115,7 @@ def page_not_found(error):
 #################### LOGIC: ###############################
 
 def create_new_game(username, topic):
+    # return game dict.
     return {
         'id_game': (len(games) + 1),
         'topic_game': topic,
@@ -109,11 +130,11 @@ def get_game(id):
         if elem.get('id_game') == id:
             return elem
 
-def set_game(id, game):
+def set_game(id, updated_game):
     temp_game = []
     for elem in games:
         if elem.get('id_game') == id:
-            elem = game
+            elem = updated_game
         temp_game.append(elem)
     
     return temp_game

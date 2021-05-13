@@ -52,7 +52,6 @@ function newGame(jsonGameObject, username) {
 
 document.querySelector("#btnAnswer").addEventListener("click", (event) => {
     event.preventDefault();
-
     Game.sendAnswer();
 
 });

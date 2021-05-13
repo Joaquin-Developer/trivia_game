@@ -42,7 +42,10 @@ class HtmlManipulation
 
     static removeChilds(element)
     {
-        element.removeChild(element.firstChild);
+        while (element.firstChild)
+        {
+            element.removeChild(element.firstChild);
+        }
     }
 
     static changeChild(element, text)

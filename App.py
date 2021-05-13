@@ -54,10 +54,20 @@ def answer(idgame):
 
 @app.route("/get_new_question_id_<idgame>", methods = ["GET"])
 def get_new_question(idgame):
-    id_game = str(idgame)
+    id_game = int(idgame)
     try:
+        my_game = get_game(id_game)
+        actual_round = int(my_game.get('current_round'))
+        all_questions = get_answers_by_topic(my_game.get("topic_game")).get("all_questions")
+        send_question = all_questions[actual_round - 1]
+        json_data = {
+            'status': True,
+            'id_question': send_question.get("id_question"),
+            'question': send_question.get("question"),
+            'answers': send_question.get("answers")
+        }
+        return json.dumps(json_data, ensure_ascii= False)
 
-        pass
     except Exception as e:
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
     pass

@@ -1,6 +1,7 @@
 [
     {
-        "Matemáticas básicas": [
+        "topic": "Matemáticas básicas",
+        "all_questions": [
             {
                 "id_question": 1,
                 "question": "Cuánto es el resultado de la operación 4 + 2 x 2",
@@ -64,7 +65,8 @@
         ]
     },
     {
-        "Geografia": [
+        "topic": "Geografia",
+        "all_questions": [
             {
                 "id_question": 1,
                 "question": "¿Cuál es la capital de Brasil?",
@@ -128,7 +130,8 @@
         ]
     },
     {
-        "Musica": [
+        "topic": "Musica",
+        "all_questions": [
             
         ]
     }

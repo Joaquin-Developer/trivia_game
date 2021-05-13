@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, json, send_from_directory, js
 from flask_cors import CORS, cross_origin
 from config import Config
 from data import response_messages
+import os, json
 
 app = Flask(__name__)
 CORS(app)   # permit all origins
@@ -46,15 +47,57 @@ def create_new_game(username, topic):
         'topic_game': topic,
         'username': username,
         'current_round': 1,
-        'total_correct': None,
-        'total_errors': None
+        'total_correct': 0,
+        'total_errors': 0
     }
 
+def get_game(id):
+    for elem in games:
+        if elem.get('id_game') == id:
+            return elem
+
+def set_game(id, game):
+    temp_game = []
+    for elem in games:
+        if elem.get('id_game') == id:
+            elem = game
+        temp_game.append(elem)
+    
+    return temp_game
+
+def read_file():
+    route = (os.environ["PP_ROUTE"] + "/trivia_game/data/trivia_data.json" )
+    f = open(route, "r").read()
+    return f
+
+def get_json_data():
+    return json.loads(read_file())
+
+def get_answers():
+    data = get_json_data()
+    for elem in data:
+        if elem.get('topic') == "Geografia":
+            print(elem)
+            return elem
+
+def correct_answer(answer, ):
+    pass    
+
+@app.route("/answer_question_id_game_<idgame>", metohds = ["POST"])
+def answer(idgame):
+    try:
+        game = get_game(int(idgame))
+
+    except Exception as e:
+        pass
+
+    pass
 
 @app.route("/get_new_question_id_<idgame>", methods = ["GET"])
 def get_new_question(idgame):
     id_game = str(idgame)
     try:
+
         pass
     except Exception as e:
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)

@@ -32,7 +32,11 @@ def new_game(username, topic):
         users.append({ 'username': username }) # add user in list
         # add game in list:
         new_game = create_new_game(username, topic)
-        ALL_GAMES.append(new_game)
+        all_games = get_json_games()
+        all_games.append(new_game)
+        # save game in json file:
+        update_games(all_games)
+
         message = response_messages.msgs.get('new_game_ok')
         return json.dumps({ 'status': True, 'message': message, 'game': new_game }, ensure_ascii= False)
 
@@ -68,9 +72,9 @@ def answer(idgame, answer):
 
         updated_game_list = set_game(game.get('id_game'), new_game)
         # update the public games array:
-        ALL_GAMES = updated_game_list
-        print("todos los objetos game:")
-        for elem in ALL_GAMES: print(elem)
+        update_games(updated_game_list)
+        # print("todos los objetos game:")
+        # for elem in ALL_GAMES: print(elem)
 
         return json.dumps({ "status": True, "result": result, "game": new_game }, ensure_ascii= False)
 
@@ -123,8 +127,9 @@ def page_not_found(error):
 
 def create_new_game(username, topic):
     # return game dict.
+    all_games = get_json_games()
     return {
-        'id_game': (len(ALL_GAMES) + 1),
+        'id_game': (len(all_games) + 1),
         'topic_game': topic,
         'username': username,
         'current_round': 1,

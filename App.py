@@ -13,7 +13,7 @@ CORS(app)   # permit all origins
 users = [
     { "username": "admin" } # example struct
 ]
-games = []
+ALL_GAMES = []
 #####################################################
 
 @app.route("/", methods = ["GET"])
@@ -32,7 +32,7 @@ def new_game(username, topic):
         users.append({ 'username': username }) # add user in list
         # add game in list:
         new_game = create_new_game(username, topic)
-        games.append(new_game)
+        ALL_GAMES.append(new_game)
         message = response_messages.msgs.get('new_game_ok')
         return json.dumps({ 'status': True, 'message': message, 'game': new_game }, ensure_ascii= False)
 
@@ -63,11 +63,14 @@ def answer(idgame, answer):
             'total_correct': total_correct,
             'total_errors': total_errors
         }
+        print("nuevo objeto game:")
         print(new_game)
 
         updated_game_list = set_game(game.get('id_game'), new_game)
         # update the public games array:
-        games = updated_game_list
+        ALL_GAMES = updated_game_list
+        print("todos los objetos game:")
+        for elem in ALL_GAMES: print(elem)
 
         return json.dumps({ "status": True, "result": result, "game": new_game }, ensure_ascii= False)
 
@@ -78,6 +81,8 @@ def answer(idgame, answer):
 def get_new_question(idgame):
     try:
         my_game = get_game(int(idgame))
+        print("El objeto game encontrado:")
+        print(my_game)
         actual_round = int(my_game.get('current_round'))
         all_questions = get_answers_by_topic(my_game.get("topic_game")).get("all_questions")
         send_question = all_questions[actual_round - 1]
@@ -87,6 +92,7 @@ def get_new_question(idgame):
             'question': send_question.get("question"),
             'answers': send_question.get("answers")
         }
+        print(send_question)
         return json.dumps(json_data, ensure_ascii= False)
 
     except Exception as e:
@@ -118,7 +124,7 @@ def page_not_found(error):
 def create_new_game(username, topic):
     # return game dict.
     return {
-        'id_game': (len(games) + 1),
+        'id_game': (len(ALL_GAMES) + 1),
         'topic_game': topic,
         'username': username,
         'current_round': 1,
@@ -127,26 +133,39 @@ def create_new_game(username, topic):
     }
 
 def get_game(id):
-    for elem in games:
+    for elem in ALL_GAMES:
+        print(elem)
         if elem.get('id_game') == id:
             return elem
 
 def set_game(id, updated_game):
     temp_game = []
-    for elem in games:
+    for elem in ALL_GAMES:
         if elem.get('id_game') == id:
             elem = updated_game
         temp_game.append(elem)
     
     return temp_game
 
-def read_file():
+def update_games():
+    # Rewrite the JSON games.json:
+    route = (os.environ["PP_ROUTE"] + "/trivia_game/data/games.json")
+    with open(route,'r+') as json_file:
+        data = json_file.read()
+        json_file.seek(0)
+        json_file.write(json.dumps({ "name": "Joaquin", "age": 20 }))
+        json_file.truncate()
+
+def get_json_games():
+    pass
+
+def read_file_data():
     route = (os.environ["PP_ROUTE"] + "/trivia_game/data/trivia_data.json" )
     f = open(route, "r").read()
     return f
 
 def get_json_data():
-    return json.loads(read_file())
+    return json.loads(read_file_data())
 
 def get_answers_by_topic(topic):
     data = get_json_data()

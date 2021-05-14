@@ -56,7 +56,8 @@ class HtmlManipulation
 
     static refreshDataGame(gameData, newQuestionData)
     {
-        // console.log(gameData);
+        console.log(gameData);
+        const userName = document.getElementById("game_data_username");
         const numberRound = document.getElementById("game_data_number_round");
         const totalCorrects = document.getElementById('game_data_corrects');
         const totalErrors = document.getElementById('game_data_errors');
@@ -66,6 +67,7 @@ class HtmlManipulation
         const answerC = document.getElementsByClassName("form-check-label")[2]
         const answerD = document.getElementsByClassName("form-check-label")[3]
 
+        this.changeChild(userName, sessionStorage.getItem("actual_username"))
         this.changeChild(numberRound, gameData.current_round)
         this.changeChild(totalCorrects, gameData.total_correct)
         this.changeChild(totalErrors, gameData.total_errors)

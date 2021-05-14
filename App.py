@@ -36,6 +36,8 @@ def new_game(username, topic):
         all_games.append(new_game)
         # save game in json file:
         update_games(all_games)
+        print(all_games)
+        print(get_json_games())
 
         message = response_messages.msgs.get('new_game_ok')
         return json.dumps({ 'status': True, 'message': message, 'game': new_game }, ensure_ascii= False)

@@ -133,42 +133,55 @@ def create_new_game(username, topic):
     }
 
 def get_game(id):
-    for elem in ALL_GAMES:
-        print(elem)
+    all_games = get_json_games()
+    for elem in all_games:
         if elem.get('id_game') == id:
             return elem
 
 def set_game(id, updated_game):
-    temp_game = []
-    for elem in ALL_GAMES:
-        if elem.get('id_game') == id:
-            elem = updated_game
-        temp_game.append(elem)
-    
-    return temp_game
+    all_games = get_json_games()
+    all_updated_games = []
+    for game in all_games:
+        if game.get("id_game") == id:
+            game = updated_game
+        all_updated_games.append(game)
+    # save in json file:
+    update_games(all_updated_games)
+    # End.
+    # temp_game = []
+    # for elem in ALL_GAMES:
+    #     if elem.get('id_game') == id:
+    #         elem = updated_game
+    #     temp_game.append(elem)
+    # return temp_game
 
-def update_games():
+def update_games(new_game_data):
     # Rewrite the JSON games.json:
     route = (os.environ["PP_ROUTE"] + "/trivia_game/data/games.json")
     with open(route,'r+') as json_file:
         data = json_file.read()
         json_file.seek(0)
-        json_file.write(json.dumps({ "name": "Joaquin", "age": 20 }))
+        json_file.write(json.dumps(new_game_data))
         json_file.truncate()
 
 def get_json_games():
-    pass
+    return json.loads(read_file_games_data())
 
-def read_file_data():
+def read_file_games_data():
+    route = (os.environ["PP_ROUTE"] + "/trivia_game/data/games.json" )
+    f = open(route, "r").read()
+    return f
+
+def read_file_trivia_data():
     route = (os.environ["PP_ROUTE"] + "/trivia_game/data/trivia_data.json" )
     f = open(route, "r").read()
     return f
 
-def get_json_data():
-    return json.loads(read_file_data())
+def get_json_trivia_data():
+    return json.loads(read_file_trivia_data())
 
 def get_answers_by_topic(topic):
-    data = get_json_data()
+    data = get_json_trivia_data()
     for elem in data:
         if elem.get('topic') == topic:
             return elem

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*
 
-from flask import Flask, render_template, request, json, jsonify #, Response
+from flask import Flask, render_template, request, json, jsonify, Response
 from flask_cors import CORS, cross_origin
 import ControllerDB
 import os, json
@@ -40,5 +41,25 @@ def test_insert_game():
 def get_length_games():
     return str(ControllerDB.get_length_games())
 
+
+@app.route("/test_get_all_questions_by_topic_<topic>")
+def get_all_questions_by_topic(topic):
+    try:
+        data = ControllerDB.get_all_questions_by_topic(topic)
+        return json.dumps(data, ensure_ascii=False)
+    except Exception as e:
+        print(e)        
+        return json.dumps({ "status": False, "error": str(e) })
+
+@app.route("/test_insert_questions", methods = ["POST"])
+def insert_questions():
+    try:
+        data = request.get_json(force=True)
+        id_insert = ControllerDB.insert_question(data)
+        print("ID: {}".format(id_insert))
+        return json.dumps({ "status": True, "id_insert": str(id_insert) })
+    except Exception as e:
+        print(e)
+        return json.dumps({ "status": False, "error": str(e) })
 
 if __name__ == "__main__": app.run(debug=True)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 
 from flask_pymongo import PyMongo
-from flask import jsonify #, Request, Response
+from flask import jsonify, Response #, Request, Response
 # from pymongo import MongoClient
 import json
 from config import Config
@@ -52,8 +52,8 @@ def get_game_by_id(id_game):
     try:
         data = mongo.db.games.find_one({ 'id_game': id_game })
         print(data)
-        # resp = json_util.dumps(data)
-        # return resp
+        resp = json_util.dumps(data)
+        return resp
     except Exception as e: raise e
 
 def get_length_games():
@@ -83,7 +83,7 @@ def delete_game(id_game):
 
 def insert_question(question_data):
     try:
-        id_insert = mongo.db.questions.insert(question_data)
+        id_insert = mongo.db.questions.insert_many(question_data)
         return str(id_insert)
     except Exception as e: raise e
 
@@ -97,5 +97,15 @@ def get_question():
 def get_all_questions_by_topic(topic):
     try:
         data = mongo.db.questions.find({ "topic": topic })
-        return json_util.dumps(data)
+        resp = json_util.dumps(data)
+        json_data = json.loads(resp)
+        all_questions = json_data[0].get("all_questions")
+        print(all_questions)
+        return all_questions
     except Exception as e: raise e
+
+def get_question_by_topic_and_id(topic, id):
+    try:
+        pass    
+    except Exception as e: raise e
+

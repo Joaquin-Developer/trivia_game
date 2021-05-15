@@ -11,13 +11,6 @@ app = Flask(__name__)
 # permit all origins:
 CORS(app)
 
-# static data:
-# users = [
-#     { "username": "admin" } # example struct
-# ]
-# ALL_GAMES = []
-#####################################################
-
 @app.route("/", methods = ["GET"])
 def index(): return render_template("index.html")
 

@@ -81,12 +81,21 @@ def delete_game(id_game):
         return True
     except Exception as e: raise e
 
-
 def insert_question(question_data):
-    pass
+    try:
+        id_insert = mongo.db.questions.insert(question_data)
+        return str(id_insert)
+    except Exception as e: raise e
 
 def get_question():
-    pass
+    # return all questions:
+    try:
+        data = mongo.db.questions.find()
+        return json_util.dumps(data)
+    except Exception as e: raise e
 
 def get_all_questions_by_topic(topic):
-    pass
+    try:
+        data = mongo.db.questions.find({ "topic": topic })
+        return json_util.dumps(data)
+    except Exception as e: raise e

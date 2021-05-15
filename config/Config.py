@@ -5,6 +5,6 @@ config = {
         "name": None,
         "server": "den1.mongo1.gear.host:27001",
         "user": "triviadatabase",
-        "password": "Tw00MC8e~k~f"
+        "pass": "Tw00MC8e~k~f"
     }
 }

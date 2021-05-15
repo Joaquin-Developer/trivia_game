@@ -3,10 +3,20 @@
 from flask import Flask, render_template, request, json, send_from_directory, jsonify, Response
 from flask_cors import CORS, cross_origin
 from config import Config
+import ControllerDB
 from data import response_messages
 import os, json
 
 app = Flask(__name__)
+
+# Database Settings:
+db_user = Config.config["database"]["user"]
+db_pass = Config.config["database"]["pass"]
+db_host = ""
+db_port = ""
+app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}".format(db_user, db_pass, db_host, db_port)
+# app.config["MONGO_URI"] = "den1.mongo1.gear.host:27001/triviadatabase"
+app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}".format(db_user, db_pass, db_host, db_port)
 CORS(app)   # permit all origins
 
 # static data:
@@ -20,6 +30,17 @@ ALL_GAMES = []
 def index():
     return render_template("index.html")
     # return "Trivia"
+
+@app.route("/test_database", methods = ["POST"])
+def test_db_connection():
+    try:
+        id_insert = ControllerDB.insert_data(request.json("name"))
+        return json.dumps({"status": True, "id": id_insert})
+
+    except Exception as e:
+        print(e)
+        return json.dumps({"status": False, "error": str(e)})
+
 
 @app.route("/new_game_<username>_topic_<topic>", methods = ["GET"])
 def new_game(username, topic):

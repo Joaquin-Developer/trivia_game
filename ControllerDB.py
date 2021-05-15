@@ -9,9 +9,6 @@ from datetime import datetime
 from bson import json_util
 from App import app
 
-# from flask import Flask
-# app = Flask(__name__)
-
 # Database Settings:
 db_user = Config.config["database"]["user"]
 db_pass = Config.config["database"]["pass"]
@@ -24,22 +21,40 @@ app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}/{}".format(db_user, db_pass, db
 
 mongo = PyMongo(app)
 
-def insert_data(name):
-    id_insert = mongo.db.users.insert(
-        { "username": name }
-    )
-    return {"id": str(id_insert)}
+def insert_user(username):
+    try:
+        id_insert = mongo.db.users.insert({ "username": username })
+        return {"id": str(id_insert)}
+    except Exception as e: raise e
 
-def query_get_users():
-    data = mongo.db.users.find()
-    resp = json_util.dumps(data)
-    return resp
+def get_all_users():
+    try:
+        data = mongo.db.users.find()
+        resp = json_util.dumps(data)
+        return resp
+    except Exception as e: raise e
+
+def get_user_by_name(username):
+    try:
+        data = mongo.db.users.find_one({ 'username': username })
+        resp = json_util.dumps(data)
+        return resp
+    except Exception as e: raise e
 
 def insert_new_game(game_object):
-    id_insert = mongo.db.games.insert(game_object)
-    return {"_id": str(id_insert)}
+    try:
+        id_insert = mongo.db.games.insert(game_object)
+        return {"_id": str(id_insert)}
+    except Exception as e: raise e
 
 def get_game_by_id(id_game):
-    data = mongo.db.games.find_one({ 'id_game': id_game })
-    print(data)
+    try:
+        data = mongo.db.games.find_one({ 'id_game': id_game })
+        print(data)
+        # resp = json_util.dumps(data)
+        # return resp
+    except Exception as e: raise e
+
+def update_game(game_object):
     pass
+

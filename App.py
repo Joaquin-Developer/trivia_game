@@ -51,15 +51,22 @@ def new_game(username, topic):
 @app.route("/answer_question_id_game_<idgame>_answer_<answer>", methods = ["GET"])
 def answer(idgame, answer):
     try:
-        game = get_game(int(idgame))
+        # find the game in the db:
+        game = ControllerDB.get_game_by_id(idgame)
         actual_round = int(game.get('current_round'))
         answer = str(answer)
-        question = get_answers_by_topic(game.get("topic_game")).get("all_questions")[actual_round - 1]
-        result = question.get("correct") == answer
+        topic = game.get("topic_game")
+        # get all questions in the db:
+        questions = ControllerDB.get_all_questions_by_topic(topic)
+        # filter:
+        my_question = questions["all_questions"][actual_round - 1]
+        print(my_question)
+        # question = get_answers_by_topic(game.get("topic_game")).get("all_questions")[actual_round - 1]
+        result = my_question.get("correct") == answer
         total_correct = game.get('total_correct')
         total_errors = game.get('total_errors')
         if result: total_correct += 1
-        else: total_errors += 1
+        else: total_errors += 1        
 
         new_game = {
             'id_game': game.get('id_game'),
@@ -71,13 +78,8 @@ def answer(idgame, answer):
         }
         print("nuevo objeto game:")
         print(new_game)
-
-        updated_game_list = set_game(game.get('id_game'), new_game)
-        # update the public games array:
-        update_games(updated_game_list)
-        # print("todos los objetos game:")
-        # for elem in ALL_GAMES: print(elem)
-
+        # save the new game in db:
+        ControllerDB.update_game(new_game)
         return json.dumps({ "status": True, "result": result, "game": new_game }, ensure_ascii= False)
 
     except Exception as e:
@@ -86,12 +88,15 @@ def answer(idgame, answer):
 @app.route("/get_new_question_id_<idgame>", methods = ["GET"])
 def get_new_question(idgame):
     try:
-        my_game = get_game(int(idgame))
-        print("El objeto game encontrado:")
-        print(my_game)
+        # find the game in the db:
+        my_game = ControllerDB.get_game_by_id(idgame)
+
         actual_round = int(my_game.get('current_round'))
-        all_questions = get_answers_by_topic(my_game.get("topic_game")).get("all_questions")
+
+        all_questions = ControllerDB.get_all_questions_by_topic(my_game.get("topic")).get("all_questions")
         send_question = all_questions[actual_round - 1]
+        # all_questions = get_answers_by_topic(my_game.get("topic_game")).get("all_questions")
+        # send_question = all_questions[actual_round - 1]
         json_data = {
             'status': True,
             'id_question': send_question.get("id_question"),
@@ -140,42 +145,7 @@ def create_new_game(username, topic):
     }
 
 
-# def _create_new_game(username, topic):
-#     # return game dict.
-#     all_games = get_json_games()
-#     return {
-#         'id_game': (len(all_games) + 1),
-#         'topic_game': topic,
-#         'username': username,
-#         'current_round': 1,
-#         'total_correct': 0,
-#         'total_errors': 0
-#     }
-
-def get_game(id):
-    all_games = get_json_games()
-    for elem in all_games:
-        if elem.get('id_game') == id:
-            return elem
-
-def set_game(id, updated_game):
-    all_games = get_json_games()
-    all_updated_games = []
-    for game in all_games:
-        if game.get("id_game") == id:
-            game = updated_game
-        all_updated_games.append(game)
-    # save in json file:
-    update_games(all_updated_games)
-    # End.
-    # temp_game = []
-    # for elem in ALL_GAMES:
-    #     if elem.get('id_game') == id:
-    #         elem = updated_game
-    #     temp_game.append(elem)
-    # return temp_game
-
-def update_games(new_game_data):
+def update_json_games(new_game_data):
     # Rewrite the JSON games.json:
     route = (os.environ["PP_ROUTE"] + "/trivia_game/data/games.json")
     with open(route,'r+') as json_file:
@@ -205,9 +175,6 @@ def get_answers_by_topic(topic):
     for elem in data:
         if elem.get('topic') == topic:
             return elem
-
-def correct_answer(answer, ):
-    pass    
 
 ###### End Logic ########################
 

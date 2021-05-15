@@ -15,7 +15,6 @@ db_host = Config.config["database"]["host"]
 db_port = Config.config["database"]["port"]
 db_name = Config.config["database"]["database"]
 
-# app.config["MONGO_URI"] = "den1.mongo1.gear.host:27001/triviadatabase" # esto esta mal!
 app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}/{}".format(db_user, db_pass, db_host, db_port, db_name)
 
 mongo = PyMongo(app)
@@ -81,3 +80,13 @@ def delete_game(id_game):
         mongo.db.games.delete_one({ "id_game": id_game })
         return True
     except Exception as e: raise e
+
+
+def insert_question(question_data):
+    pass
+
+def get_question():
+    pass
+
+def get_all_questions_by_topic(topic):
+    pass

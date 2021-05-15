@@ -3,7 +3,7 @@
 ### Requisitos para correr la aplicación web:
 - Tener instalado Python v3.8.5
 
-### Ejecición:
+### Ejecución:
 ```shell
 python3 App.py
 ```

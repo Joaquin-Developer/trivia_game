@@ -19,41 +19,7 @@ CORS(app)
 #####################################################
 
 @app.route("/", methods = ["GET"])
-def index():
-    return render_template("index.html")
-    # return "Trivia"
-
-@app.route("/test_insert_<username>", methods = ["GET"])
-def test_db_connection(username):
-    try:
-        id_insert = ControllerDB.insert_user(username)
-        return json.dumps({"status": True, "id": id_insert})
-
-    except Exception as e:
-        print(e)
-        return json.dumps({"status": False, "error": str(e)})
-
-@app.route("/test_get_users_<username>", methods = ["GET"])
-def get_users(username):
-    try:
-        data = ControllerDB.get_user_by_name(username)
-        print(data)
-        if data == None:
-            return json.dumps({ "status": "none" })
-        else:
-            return json.dumps({ "status": "1 value" })
-    except Exception as e:
-        print(e)
-        return json.dumps({ "status": False, "error": str(e) })
-
-@app.route("/test_insert_game", methods = ["POST"])
-def test_insert_game():
-    json_req = request.get_json(force=True)
-    # resp = ControllerDB.create_new_user(data.get("new_username"), data.get("new_password"))        
-
-@app.route("/test_length_games", methods=["GET"])
-def get_length_games():
-    return str(ControllerDB.get_length_games())
+def index(): return render_template("index.html")
 
 @app.route("/new_game_<username>_topic_<topic>", methods = ["GET"])
 def new_game(username, topic):

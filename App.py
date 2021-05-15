@@ -11,12 +11,10 @@ app = Flask(__name__)
 # permit all origins:
 CORS(app)
 
-
-
 # static data:
-users = [
-    { "username": "admin" } # example struct
-]
+# users = [
+#     { "username": "admin" } # example struct
+# ]
 # ALL_GAMES = []
 #####################################################
 
@@ -25,47 +23,57 @@ def index():
     return render_template("index.html")
     # return "Trivia"
 
-@app.route("/test_database_<username>", methods = ["GET"])
+@app.route("/test_insert_<username>", methods = ["GET"])
 def test_db_connection(username):
     try:
-        id_insert = ControllerDB.insert_data(username)
+        id_insert = ControllerDB.insert_user(username)
         return json.dumps({"status": True, "id": id_insert})
 
     except Exception as e:
         print(e)
         return json.dumps({"status": False, "error": str(e)})
 
-@app.route("/test_get_data_users", methods = ["GET"])
-def get_users():
+@app.route("/test_get_users_<username>", methods = ["GET"])
+def get_users(username):
     try:
-        data = ControllerDB.query_get_users()
-        # return json.dumps({"data": str(data)})
-        return data
-        # return Response(data, mimetype="application/json")
+        data = ControllerDB.get_user_by_name(username)
+        print(data)
+        if data == None:
+            return json.dumps({ "status": "none" })
+        else:
+            return json.dumps({ "status": "1 value" })
     except Exception as e:
         print(e)
         return json.dumps({ "status": False, "error": str(e) })
 
+@app.route("/test_insert_game", methods = ["POST"])
+def test_insert_game():
+    json_req = request.get_json(force=True)
+    # resp = ControllerDB.create_new_user(data.get("new_username"), data.get("new_password"))        
+
+@app.route("/test_length_games", methods=["GET"])
+def get_length_games():
+    return str(ControllerDB.get_length_games())
 
 @app.route("/new_game_<username>_topic_<topic>", methods = ["GET"])
 def new_game(username, topic):
     try:
-        for user in users:
-            if user.get('username') == username:
-                message = response_messages.msgs.get('username_not_available')
-                return json.dumps({ 'status': False, 'message': message }, ensure_ascii=False)
-
-        users.append({ 'username': username }) # add user in list
-        # add game in list:
+        user = ControllerDB.get_user_by_name(username)
+        if user != None:
+            message = response_messages.msgs.get('username_not_available')
+            return json.dumps({ 'status': False, 'message': message }, ensure_ascii=False)
+        # Add user in database:
+        ControllerDB.insert_user(username)            
+        # Create game object:
         new_game = create_new_game(username, topic)
-        all_games = get_json_games()
-        all_games.append(new_game)
-        # save game in json file:
-        update_games(all_games)
-        print(all_games)
-        print(get_json_games())
-
+        print("New game: " + str(new_game))
+        # Add game object in database:
+        ControllerDB.insert_new_game(new_game)
+        # return response:
         message = response_messages.msgs.get('new_game_ok')
+        # remove the property _id:
+        del new_game["_id"]     
+        # send response:
         return json.dumps({ 'status': True, 'message': message, 'game': new_game }, ensure_ascii= False)
 
     except Exception as e:
@@ -131,15 +139,15 @@ def get_new_question(idgame):
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
     pass
 
-@app.route("/end_game_<username>", methods = ["GET"])
-def end_game(username):
-    try:
-        # remove user from the list
-        for index in range(0, len(users)):
-            if users[index].get('username') == username:
-                users.pop(index)
-    except Exception as e:
-        pass
+# @app.route("/end_game_<username>", methods = ["GET"])
+# def end_game(username):
+#     try:
+#         # remove user from the list
+#         for index in range(0, len(users)):
+#             if users[index].get('username') == username:
+#                 users.pop(index)
+#     except Exception as e:
+#         pass
 
 # return css and static files:
 @app.route('/public/<path:path>')
@@ -154,16 +162,29 @@ def resource_not_found(error = None):
 #################### LOGIC: ###############################
 
 def create_new_game(username, topic):
-    # return game dict.
-    all_games = get_json_games()
+    length_games = ControllerDB.get_length_games()
+    print("LEN: {}".format(length_games))
     return {
-        'id_game': (len(all_games) + 1),
-        'topic_game': topic,
-        'username': username,
-        'current_round': 1,
-        'total_correct': 0,
-        'total_errors': 0
+        "id_game": (int(length_games) + 1),
+        "topic_game": topic,
+        "username": username,
+        "current_round": 1,
+        "total_correct": 0,
+        "total_errors": 0
     }
+
+
+# def _create_new_game(username, topic):
+#     # return game dict.
+#     all_games = get_json_games()
+#     return {
+#         'id_game': (len(all_games) + 1),
+#         'topic_game': topic,
+#         'username': username,
+#         'current_round': 1,
+#         'total_correct': 0,
+#         'total_errors': 0
+#     }
 
 def get_game(id):
     all_games = get_json_games()

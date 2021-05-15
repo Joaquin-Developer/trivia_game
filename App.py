@@ -37,6 +37,7 @@ def new_game(username, topic):
 
     except Exception as e:
         print(e)
+        print(e.args)
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
     pass
 
@@ -45,15 +46,15 @@ def new_game(username, topic):
 def answer(idgame, answer):
     try:
         # find the game in the db:
-        game = ControllerDB.get_game_by_id(idgame)
+        game = json.loads(ControllerDB.get_game_by_id(idgame))
         actual_round = int(game.get('current_round'))
         answer = str(answer)
         topic = game.get("topic_game")
-        # get all questions in the db:
+        # get list of all questions in the db:
         questions = ControllerDB.get_all_questions_by_topic(topic)
         # filter:
-        my_question = questions["all_questions"][actual_round - 1]
-        print(my_question)
+        my_question = questions[actual_round - 1]
+        print("Question: {}".format(my_question))
         # question = get_answers_by_topic(game.get("topic_game")).get("all_questions")[actual_round - 1]
         result = my_question.get("correct") == answer
         total_correct = game.get('total_correct')
@@ -76,6 +77,8 @@ def answer(idgame, answer):
         return json.dumps({ "status": True, "result": result, "game": new_game }, ensure_ascii= False)
 
     except Exception as e:
+        print(e)
+        print(e.args)
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
 
 @app.route("/get_new_question_id_<idgame>", methods = ["GET"])
@@ -97,6 +100,7 @@ def get_new_question(idgame):
         
     except Exception as e:
         print(e)
+        print(e.args)
         return json.dumps({ "status": False, "message": "Error interno del servidor" }, ensure_ascii= False)
     pass
 

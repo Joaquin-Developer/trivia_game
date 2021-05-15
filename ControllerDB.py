@@ -50,8 +50,8 @@ def insert_new_game(new_game):   #(username, topic):
 
 def get_game_by_id(id_game):
     try:
-        data = mongo.db.games.find_one({ 'id_game': id_game })
-        print(data)
+        data = mongo.db.games.find_one({ 'id_game': int(id_game) })
+        print("Game: " + str(data))
         resp = json_util.dumps(data)
         return resp
     except Exception as e: raise e
@@ -64,12 +64,12 @@ def get_length_games():
 
 def update_game(game_object):
     try:
-        id_game = game_object["id_game"]
+        id_game = int(game_object["id_game"])
         mongo.db.games.update_one({ "id_game": id_game }, {
           "$set": {
-                'current_round': game_object["current_round"],
-                'total_correct': game_object["total_correct"],
-                'total_errors': game_object["total_errors"]
+                'current_round': int(game_object["current_round"]),
+                'total_correct': int(game_object["total_correct"]),
+                'total_errors': int(game_object["total_errors"])
             }
         })
         return True

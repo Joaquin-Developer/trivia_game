@@ -35,10 +35,21 @@ def get_all_users():
     except Exception as e: raise e
 
 def get_user_by_name(username):
+    data = mongo.db.users.find_one({ 'username': username })
+    if data == None: return None
+    else:
+        resp = json_util.dumps(data)
+        return resp
+        return json.loads(resp)
+
+    # if data == None: return None
+    # else: return json_util.dumps(data)
+
+def delete_all_users():
     try:
-        data = mongo.db.users.find_one({ 'username': username })
-        if data == None: return None
-        else: return json_util.dumps(data)
+        result = mongo.db.users.delete_many({})
+        print("Total borrados: {}".format(result.deleted_count))
+        return True
     except Exception as e: raise e
 
 def insert_new_game(new_game):   #(username, topic):
@@ -47,6 +58,12 @@ def insert_new_game(new_game):   #(username, topic):
         return str(id_insert)
     except Exception as e: print("No se pudo insertar"); raise e
 
+def delete_all_games():
+    try:
+        result = mongo.db.games.delete_many({})
+        print("Total borrados: {}".format(result.deleted_count))
+        return True
+    except Exception as e: raise e
 
 def get_game_by_id(id_game):
     try:

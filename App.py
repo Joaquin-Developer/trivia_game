@@ -8,22 +8,16 @@ from data import response_messages
 import os, json
 
 app = Flask(__name__)
+# permit all origins:
+CORS(app)
 
-# Database Settings:
-db_user = Config.config["database"]["user"]
-db_pass = Config.config["database"]["pass"]
-db_host = ""
-db_port = ""
-app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}".format(db_user, db_pass, db_host, db_port)
-# app.config["MONGO_URI"] = "den1.mongo1.gear.host:27001/triviadatabase"
-app.config["MONGO_URI"] = "mongodb://{}:{}@{}:{}".format(db_user, db_pass, db_host, db_port)
-CORS(app)   # permit all origins
+
 
 # static data:
 users = [
     { "username": "admin" } # example struct
 ]
-ALL_GAMES = []
+# ALL_GAMES = []
 #####################################################
 
 @app.route("/", methods = ["GET"])
@@ -31,15 +25,26 @@ def index():
     return render_template("index.html")
     # return "Trivia"
 
-@app.route("/test_database", methods = ["POST"])
-def test_db_connection():
+@app.route("/test_database_<username>", methods = ["GET"])
+def test_db_connection(username):
     try:
-        id_insert = ControllerDB.insert_data(request.json("name"))
+        id_insert = ControllerDB.insert_data(username)
         return json.dumps({"status": True, "id": id_insert})
 
     except Exception as e:
         print(e)
         return json.dumps({"status": False, "error": str(e)})
+
+@app.route("/test_get_data_users", methods = ["GET"])
+def get_users():
+    try:
+        data = ControllerDB.query_get_users()
+        # return json.dumps({"data": str(data)})
+        return data
+        # return Response(data, mimetype="application/json")
+    except Exception as e:
+        print(e)
+        return json.dumps({ "status": False, "error": str(e) })
 
 
 @app.route("/new_game_<username>_topic_<topic>", methods = ["GET"])
@@ -142,8 +147,8 @@ def send_css_and_media(path):
     return send_from_directory('public', path)
 
 @app.errorhandler(404)
-def page_not_found(error):
-    return "404 not found"
+def resource_not_found(error = None):
+    return "404 not found: {}".format(request.url)
     # return render_template("404errorPage.html")
 
 #################### LOGIC: ###############################

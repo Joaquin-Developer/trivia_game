@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*
 
 from flask_pymongo import PyMongo
-from flask import jsonify, Request, Response
+from flask import jsonify #, Request, Response
 # from pymongo import MongoClient
-import json, datetime, os
+import json
 from config import Config
-from datetime import datetime
 from bson import json_util
 from App import app
 
@@ -47,16 +46,6 @@ def insert_new_game(new_game):   #(username, topic):
     try:
         id_insert = mongo.db.games.insert(new_game)
         return str(id_insert)
-        # length_games = get_length_games()
-        # id_insert = mongo.db.games.insert({
-        #     'id_game': (length_games + 1),
-        #     'topic_game': topic,
-        #     'username': username,
-        #     'current_round': 1,
-        #     'total_correct': 0,
-        #     'total_errors': 0
-        # })
-        # return {"_id": str(id_insert)}
     except Exception as e: print("No se pudo insertar"); raise e
 
 
@@ -75,5 +64,20 @@ def get_length_games():
     except Exception as e: raise e
 
 def update_game(game_object):
-    pass
+    try:
+        id_game = game_object["id_game"]
+        mongo.db.games.update_one({ "id_game": id_game }, {
+          "$set": {
+                'current_round': game_object["current_round"],
+                'total_correct': game_object["total_correct"],
+                'total_errors': game_object["total_errors"]
+            }
+        })
+        return True
+    except Exception as e: raise e
 
+def delete_game(id_game):
+    try:
+        mongo.db.games.delete_one({ "id_game": id_game })
+        return True
+    except Exception as e: raise e

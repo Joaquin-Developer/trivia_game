@@ -83,8 +83,11 @@ def get_new_question(idgame):
     try:
         # find the game in the db:
         my_game = ControllerDB.get_game_by_id(idgame)
-
         actual_round = int(my_game.get('current_round'))
+
+        
+
+
 
         all_questions = ControllerDB.get_all_questions_by_topic(my_game.get("topic")).get("all_questions")
         send_question = all_questions[actual_round - 1]

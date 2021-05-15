@@ -100,7 +100,6 @@ def get_all_questions_by_topic(topic):
         resp = json_util.dumps(data)
         json_data = json.loads(resp)
         all_questions = json_data[0].get("all_questions")
-        print(all_questions)
         return all_questions
     except Exception as e: raise e
 
